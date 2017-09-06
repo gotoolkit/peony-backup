@@ -32,7 +32,7 @@ var apiCmd = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		db := store.NewStore(
 			store.Dialect("mysql"),
-			store.Args(fmt.Sprintf("%s:%s@/%s?charset=utf8&parseTime=True&loc=Local", username, passwd, dbname)),
+			store.Args(fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8&parseTime=True&loc=Local", username, passwd, dbhost, dbname)),
 		)
 
 		err := db.Open()
@@ -62,6 +62,7 @@ var apiCmd = &cobra.Command{
 var (
 	username string
 	passwd   string
+	dbhost   string
 	dbname   string
 	addr     string
 	debug    bool
@@ -80,8 +81,9 @@ func init() {
 	// is called directly, e.g.:
 	// apiCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 	apiCmd.Flags().BoolVarP(&debug, "debug", "d", false, "Debug mode")
-	apiCmd.Flags().StringVarP(&addr, "addr", "a", ":8080", "Bind address for api")
+	apiCmd.Flags().StringVarP(&addr, "addr", "a", ":8000", "Bind address for api")
 	apiCmd.Flags().StringVarP(&username, "user", "u", "root", "User name for database")
 	apiCmd.Flags().StringVarP(&passwd, "pass", "p", "root", "Password for database")
+	apiCmd.Flags().StringVarP(&dbhost, "host", "H", "localhost", "Hostname for database")
 	apiCmd.Flags().StringVarP(&dbname, "name", "n", "peony", "database name for database")
 }

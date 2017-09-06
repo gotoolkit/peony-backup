@@ -22,8 +22,7 @@ func (server *Server) Start() error {
 		gin.SetMode(gin.ReleaseMode)
 	}
 	middlewareService := &middleware.MiddlewareService{
-		JWTService:        server.JWTService,
-		PermissionService: server.PermissionService,
+		JWTService: server.JWTService,
 	}
 
 	engine := gin.New()

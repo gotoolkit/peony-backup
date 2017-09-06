@@ -1,0 +1,26 @@
+version: "3"
+services:
+  prod-app:
+    image: containerize
+    links:
+      - db:database
+    ports: 
+      - 8000:8000
+    command: api -H database:3306 -d 
+  
+  demo-app:
+    build:
+      context: .
+    links:
+      - db:database
+    ports: 
+      - 8000:8000
+    command: api -H database:3306 -d 
+  
+  db:
+    image: mysql
+    environment: 
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=peony
+    ports: 
+      - 3306:3306
