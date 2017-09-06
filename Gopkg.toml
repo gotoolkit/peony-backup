@@ -22,6 +22,18 @@
 
 
 [[constraint]]
+  name = "github.com/gin-gonic/gin"
+  version = "1.2.0"
+
+[[constraint]]
+  name = "github.com/gorilla/securecookie"
+  version = "1.1.0"
+
+[[constraint]]
+  name = "github.com/jinzhu/gorm"
+  version = "1.0.0"
+
+[[constraint]]
   branch = "master"
   name = "github.com/mitchellh/go-homedir"
 

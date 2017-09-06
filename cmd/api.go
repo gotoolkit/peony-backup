@@ -18,7 +18,7 @@ import (
 	"log"
 
 	"github.com/gotoolkit/peony/http"
-
+	"github.com/gotoolkit/peony/jwt"
 	"github.com/gotoolkit/peony/store"
 
 	"github.com/spf13/cobra"
@@ -37,18 +37,24 @@ var apiCmd = &cobra.Command{
 
 		err := db.Open()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("Init db : %v", err)
 		}
 		defer db.Close()
+
+		jwtService, err := jwt.NewService()
+		if err != nil {
+			log.Fatalf("Init jwt service: %v", err)
+		}
 
 		server := &http.Server{
 			BindAddress: addr,
 			UserService: db.UserService,
-			Debug: debug,
+			Debug:       debug,
+			JWTService:  jwtService,
 		}
 		err = server.Start()
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("Server start: %v", err)
 		}
 	},
 }
