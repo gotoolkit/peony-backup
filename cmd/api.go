@@ -37,13 +37,13 @@ var apiCmd = &cobra.Command{
 
 		err := db.Open()
 		if err != nil {
-			log.Fatalf("Init db : %v", err)
+			log.Fatalf("Fail to init db: %v", err)
 		}
 		defer db.Close()
 
 		jwtService, err := jwt.NewService()
 		if err != nil {
-			log.Fatalf("Init jwt service: %v", err)
+			log.Fatalf("Fail to init jwt service: %v", err)
 		}
 
 		server := &http.Server{
@@ -54,7 +54,7 @@ var apiCmd = &cobra.Command{
 		}
 		err = server.Start()
 		if err != nil {
-			log.Fatalf("Server start: %v", err)
+			log.Fatalf("Fail to start server: %v", err)
 		}
 	},
 }
