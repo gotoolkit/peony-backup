@@ -19,6 +19,6 @@ func (h *Handler) SetupRoutes(router *gin.Engine) {
 	v1 := router.Group("/api/v1")
 	{
 		h.DockerHandler.Routes(v1.Group("/docker"))
-		h.UserHandler.Routes(v1.Group("/user"))
+		h.UserHandler.Routes(v1.Group("/users"))
 	}
 }

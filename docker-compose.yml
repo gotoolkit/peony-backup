@@ -1,11 +1,11 @@
 version: "3"
 services:
   prod-app:
-    image: containerize
+    image: containerize/peony
     links:
       - db:database
     ports: 
-      - 8000:8000
+      - 80:8000
     command: api -H database:3306 -d 
   
   demo-app:
@@ -16,11 +16,24 @@ services:
     ports: 
       - 8000:8000
     command: api -H database:3306 -d 
-  
+  dev-app:
+    image: golang:alpine
+    links:
+      - db:database
+    working_dir: /go/src/github.com/gotoolkit/peony
+    volumes: 
+      - ./:/go/src/github.com/gotoolkit/peony
+    ports: 
+      - 8888:8000
+    command: go run cmd/peony/main.go api -H database:3306 -d
   db:
     image: mysql
     environment: 
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=peony
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    links: 
+      - db
     ports: 
-      - 3306:3306
+      - 8080:80

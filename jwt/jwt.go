@@ -1,6 +1,9 @@
 package jwt
 
 import (
+	"fmt"
+
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gorilla/securecookie"
 	"github.com/gotoolkit/peony"
 )
@@ -29,5 +32,16 @@ func (service *Service) GenerateToken(data *peony.TokenData) (string, error) {
 
 // VerifyToken parses a JWT token and verify its validity. It returns an error if token is invalid.
 func (service *Service) VerifyToken(token string) error {
+	parsedToken, err := jwt.Parse(token, func(token *jwt.Token) (interface{}, error) {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+			msg := fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+			return nil, msg
+		}
+		return service.secret, nil
+	})
+	if err != nil || parsedToken == nil || !parsedToken.Valid {
+		return peony.ErrInvalidJWTToken
+	}
+
 	return nil
 }

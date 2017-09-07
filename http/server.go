@@ -21,7 +21,7 @@ func (server *Server) Start() error {
 	if !server.Debug {
 		gin.SetMode(gin.ReleaseMode)
 	}
-	middlewareService := &middleware.MiddlewareService{
+	middlewareService := &middleware.Service{
 		JWTService: server.JWTService,
 	}
 

@@ -11,11 +11,11 @@ import (
 // UserHandler represents the User API.
 type UserHandler struct {
 	UserService       peony.UserService
-	middlewareService *middleware.MiddlewareService
+	middlewareService *middleware.Service
 }
 
 // NewUserHandler returns a new instance of DockerHandler.
-func NewUserHandler(middlewareService *middleware.MiddlewareService) *UserHandler {
+func NewUserHandler(middlewareService *middleware.Service) *UserHandler {
 	h := &UserHandler{
 		middlewareService: middlewareService,
 	}
@@ -28,4 +28,10 @@ func (h *UserHandler) Routes(router *gin.RouterGroup) {
 	router.GET("/status", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"status": true})
 	})
+	router.GET("/middleware", h.middlewareService.MiddlewareHandler(), func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": true})
+	})
+	// router.GET("/middleware", h.middlewareService.AddMiddlewares(func(c *gin.Context) {
+	// 	c.JSON(http.StatusOK, gin.H{"status": true})
+	// }))
 }
