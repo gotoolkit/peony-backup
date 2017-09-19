@@ -47,10 +47,11 @@ var apiCmd = &cobra.Command{
 		}
 
 		server := &http.Server{
-			BindAddress: addr,
-			UserService: db.UserService,
-			Debug:       debug,
-			JWTService:  jwtService,
+			BindAddress:  addr,
+			UserService:  db.UserService,
+			Debug:        debug,
+			AuthDisabled: noAuth,
+			JWTService:   jwtService,
 		}
 		err = server.Start()
 		if err != nil {
@@ -66,6 +67,7 @@ var (
 	dbname   string
 	addr     string
 	debug    bool
+	noAuth   bool
 )
 
 func init() {
@@ -86,4 +88,5 @@ func init() {
 	apiCmd.Flags().StringVarP(&passwd, "pass", "p", "root", "Password for database")
 	apiCmd.Flags().StringVarP(&dbhost, "host", "H", "localhost", "Hostname for database")
 	apiCmd.Flags().StringVarP(&dbname, "name", "n", "peony", "database name for database")
+	apiCmd.Flags().BoolVarP(&noAuth, "auth", "s", false, "disable auth")
 }

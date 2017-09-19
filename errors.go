@@ -2,8 +2,10 @@ package peony
 
 // JWT errors.
 const (
-	ErrSecretGeneration = Error("Unable to generate secret key")
-	ErrInvalidJWTToken  = Error("Invalid JWT token")
+	ErrUnauthorized       = Error("Unauthorized")
+	ErrSecretGeneration   = Error("Unable to generate secret key")
+	ErrInvalidJWTToken    = Error("Invalid JWT token")
+	ErrMissingContextData = Error("Unable to find JWT data in request context")
 )
 
 // Error represents an application error.

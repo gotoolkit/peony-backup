@@ -8,6 +8,17 @@ import (
 // Option functional options
 type Option func(*Store)
 
+// Store defines the implementation of peony.DataStore using
+type Store struct {
+	dialect string
+	args    string
+
+	// Services
+	UserService *UserService
+
+	db *gorm.DB
+}
+
 // Dialect option orm dialect
 func Dialect(dialect string) Option {
 	return func(s *Store) {
@@ -20,17 +31,6 @@ func Args(arg string) Option {
 	return func(s *Store) {
 		s.args = arg
 	}
-}
-
-// Store defines the implementation of peony.DataStore using
-type Store struct {
-	dialect string
-	args    string
-
-	// Services
-	UserService *UserService
-
-	db *gorm.DB
 }
 
 // NewStore initializes a new Store and the associated services
